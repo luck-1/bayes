@@ -2,14 +2,14 @@
 import numpy
 
 
-def generateWordCloud(text):
+def generateWordCloud(content):
     """
     函数说明:生成词云
     """
     from matplotlib import pyplot
     from wordcloud import WordCloud
     # 词云参数
-    wc = WordCloud(collocations=False, font_path='simfang.ttf', width=1400, height=1400, margin=2).generate(text)
+    wc = WordCloud(collocations=False, font_path='simfang.ttf', width=1400, height=1400, margin=2).generate(content)
 
     pyplot.imshow(wc)
     pyplot.axis("off")
@@ -107,7 +107,10 @@ def classifyNB(vec2Classify, p0Vec, p1Vec, pClass1):
     """
     p1 = sum(vec2Classify * p1Vec) + numpy.log(pClass1)
     p0 = sum(vec2Classify * p0Vec) + numpy.log(1.0 - pClass1)
-    return 1 if (p1 > p0) else 0
+    if p1 >= p0:
+        return 1, p1 / (p1 + p0)
+    else:
+        return 0, p0 / (p1 + p0)
 
 
 def textParse(bigString):
@@ -134,15 +137,15 @@ def readLearnFile():
     # 遍历25个txt文件
     for i in range(1, 26):
         # 读取每个垃圾邮件，并字符串转换成字符串列表
-        wordList = textParse(open('email/' + 'spam/' + str(i) + '.txt', 'r').read())
-        docList.append(wordList)
+        fileWordList = textParse(open('email/' + 'spam/' + str(i) + '.txt', 'r').read())
+        docList.append(fileWordList)
         fileNameList.append('spam/' + str(i) + '.txt')
         # 标记垃圾邮件，1表示垃圾文件
         classList.append(1)
         # 读取每个非垃圾邮件，并字符串转换成字符串列表
-        wordList = textParse(open('email/' + 'ham/' + str(i) + '.txt', 'r').read())
+        fileWordList = textParse(open('email/' + 'ham/' + str(i) + '.txt', 'r').read())
         # 读取每个非垃圾邮件，并字符串转换成字符串列表
-        docList.append(wordList)
+        docList.append(fileWordList)
         # 标记正常邮件，0表示正常文件
         classList.append(0)
         fileNameList.append('ham/' + str(i) + '.txt')
@@ -188,7 +191,7 @@ def randFileTest():
     # 遍历训练集
     for docIndex in trainingSet:
         # 将生成的词集模型添加到训练矩阵中
-        trainMat.append( setOfWords2Vec(vocabList, docList[docIndex]))
+        trainMat.append(setOfWords2Vec(vocabList, docList[docIndex]))
         # 将类别添加到训练集类别标签系向量中
         trainClasses.append(classList[docIndex])
         # 训练朴素贝叶斯模型
@@ -200,7 +203,8 @@ def randFileTest():
         # 测试集的词集模型
         wordVector = setOfWords2Vec(vocabList, docList[docIndex])
         # 验证分类是否错误
-        if classifyNB(numpy.array(wordVector), p0V, p1V, pSpam) != classList[docIndex]:
+        isSpan, pValue = classifyNB(numpy.array(wordVector), p0V, p1V, pSpam)
+        if isSpan != classList[docIndex]:
             # 错误计数加1
             errorCount += 1
             print("分类错误：", fileNameList[docIndex])
@@ -221,31 +225,28 @@ def customContentTest(file):
     for i in range(len(docList)):
         trainMat.append(setOfWords2Vec(vocabList, testWordList))
     p0V, p1V, pSpam = trainNB0(numpy.array(trainMat), numpy.array(classList))
-    result = classifyNB(setOfWords2Vec(vocabList, testWordList), p0V, p1V, pSpam)
-    if result == 1:
-        generateWordCloud(testWordList)
-    print("垃圾邮件的概率：", pSpam)
+    isSpan, pValue = classifyNB(setOfWords2Vec(vocabList, testWordList), p0V, p1V, pSpam)
+    if isSpan == 1:
+        generateWordCloud(open(file, 'r').read())
+    print("垃圾邮件的概率：", pValue)
 
 
-def main():
+if __name__ == '__main__':
     """
     分词演示
     """
-    # text = "是垃圾邮件的概率为,随机文件交叉验证Loading model cost 1.151 seconds.Prefix dict has been built succesfully."
-    # generateWordCloud(text)  # 词云展示
-    # wordList = textParse(text)  # 文字分割
-    # print(wordList)  # 控制台输出
+    text = "是垃圾邮件的概率为,随机文件交叉验证Loading model cost 1.151 seconds.Prefix dict has been built succesfully."
+    generateWordCloud(text)  # 词云展示
+    wordList = textParse(text)  # 文字分割
+    print(wordList)  # 控制台输出
 
     """
-    用自定义文件，验证是否为垃圾邮件
+    自定义文件，验证是否为垃圾邮件
+        Parameter: 文件名
     """
-    customContentTest('testFile.txt')
+    # customContentTest('testFile.txt')
 
     """
     随机文件交叉验证，查看分类错误率
     """
     # randFileTest()
-
-
-if __name__ == '__main__':
-    main()

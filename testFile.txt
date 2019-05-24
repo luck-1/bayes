@@ -1,6 +1,13 @@
-Zach Hamm commented on your status.
+不断更新中:中文垃圾邮件过滤规则集Chinese_rules.cf - 羽毛的思考- ...
+发表时间：2017年8月21日 -  最近要做垃圾邮件过滤的东西但是手头么有数据集自己扒拉吧觉得有点慢而且扒下来的东西还得分类从网络上搜索的说CCERT在2005年发布过一份中文...
+blog.csdn.net/iamadk/article/detai...-快照-CSDN博客频道
 
-Zach wrote:
-"doggy style - enough said, thank you & good night"
+基于贝叶斯方法的中文垃圾邮件过滤技术研究-计算机应用技术专业...
+年歹月l多日第一章垃圾邮件现状第一章垃圾邮件现状迄今为止,垃圾邮件(sp锄、junkmai1)在国际上没有统一的定义。在《中国互联网协会反垃圾邮件规范》中垃圾邮件被界定...
 
+www.taodocs.com/p-199506885.html-快照-淘豆网
 
+高性能中文垃圾邮件过滤系统-挑战杯
+但该方法只对英文垃圾邮件过滤有效,无法直接用于中文垃圾邮件过滤。在信息检索领域的字符级n元文法被引入垃圾邮件过滤,并在TREC评测中取得优于词袋(Bag of word)假设...
+
+www.tiaozhanbei.net/project/15547/-快照-挑战杯
