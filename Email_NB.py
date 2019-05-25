@@ -137,13 +137,13 @@ def readLearnFile():
     # 遍历25个txt文件
     for i in range(1, 26):
         # 读取每个垃圾邮件，并字符串转换成字符串列表
-        fileWordList = textParse(open('email/' + 'spam/' + str(i) + '.txt', 'r').read())
+        fileWordList = textParse(open('email/spam/' + str(i), 'r').read())
         docList.append(fileWordList)
         fileNameList.append('spam/' + str(i) + '.txt')
         # 标记垃圾邮件，1表示垃圾文件
         classList.append(1)
         # 读取每个非垃圾邮件，并字符串转换成字符串列表
-        fileWordList = textParse(open('email/' + 'ham/' + str(i) + '.txt', 'r').read())
+        fileWordList = textParse(open('email/ham/' + str(i), 'r').read())
         # 读取每个非垃圾邮件，并字符串转换成字符串列表
         docList.append(fileWordList)
         # 标记正常邮件，0表示正常文件
@@ -244,7 +244,7 @@ if __name__ == '__main__':
     自定义文件，验证是否为垃圾邮件
         Parameter: 文件名
     """
-    # customContentTest('testFile.txt')
+    # customContentTest('/email/testFile.txt')
 
     """
     随机文件交叉验证，查看分类错误率
