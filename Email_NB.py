@@ -139,7 +139,7 @@ def readLearnFile():
         # 读取每个垃圾邮件，并字符串转换成字符串列表
         fileWordList = textParse(open('email/spam/' + str(i), 'r').read())
         docList.append(fileWordList)
-        fileNameList.append('spam/' + str(i) + '.txt')
+        fileNameList.append('spam/' + str(i))
         # 标记垃圾邮件，1表示垃圾文件
         classList.append(1)
         # 读取每个非垃圾邮件，并字符串转换成字符串列表
@@ -148,7 +148,7 @@ def readLearnFile():
         docList.append(fileWordList)
         # 标记正常邮件，0表示正常文件
         classList.append(0)
-        fileNameList.append('ham/' + str(i) + '.txt')
+        fileNameList.append('ham/' + str(i))
     return docList, classList, fileNameList
 
 
@@ -235,10 +235,10 @@ if __name__ == '__main__':
     """
     分词演示
     """
-    text = "是垃圾邮件的概率为,随机文件交叉验证Loading model cost 1.151 seconds.Prefix dict has been built succesfully."
-    generateWordCloud(text)  # 词云展示
-    wordList = textParse(text)  # 文字分割
-    print(wordList)  # 控制台输出
+    # text = "是垃圾邮件的概率为,随机文件交叉验证Loading model cost 1.151 seconds.Prefix dict has been built succesfully."
+    # generateWordCloud(text)  # 词云展示
+    # wordList = textParse(text)  # 文字分割
+    # print(wordList)  # 控制台输出
 
     """
     自定义文件，验证是否为垃圾邮件
@@ -249,4 +249,4 @@ if __name__ == '__main__':
     """
     随机文件交叉验证，查看分类错误率
     """
-    # randFileTest()
+    randFileTest()
